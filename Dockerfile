@@ -1,5 +1,8 @@
 FROM debian:bullseye-slim
 
+ARG NOVNC_V=1.3.0
+ARG TURBOVNC_V=3.0.1
+
 RUN  echo "deb http://deb.debian.org/debian bullseye contrib non-free" >> /etc/apt/sources.list && \
 	apt-get update && \
 	apt-get -y install --no-install-recommends wget locales procps && \
@@ -8,13 +11,6 @@ RUN  echo "deb http://deb.debian.org/debian bullseye contrib non-free" >> /etc/a
 	locale-gen && \
 	apt-get -y install --reinstall ca-certificates && \
 	rm -rf /var/lib/apt/lists/*
-
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-
-ARG NOVNC_V=1.3.0
-ARG TURBOVNC_V=3.0.1
 
 COPY novnccheck /usr/bin
 RUN chmod 755 /usr/bin/novnccheck
@@ -54,7 +50,7 @@ ENV CUSTOM_RES_H=480
 COPY /x11vnc /usr/bin/x11vnc
 RUN chmod 751 /usr/bin/x11vnc
 
-RUN export TZ=Europe/Rome && \
+RUN export TZ=Australia/Melbourne && \
 	apt-get update && \
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
@@ -76,6 +72,9 @@ RUN cd /tmp && \
 	mkdir /tmp/config && \
 	rm /usr/share/novnc/app/images/icons/*
 
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 ENV DATA_DIR=/debian
 ENV FORCE_UPDATE=""
 ENV CUSTOM_RES_W=1280
