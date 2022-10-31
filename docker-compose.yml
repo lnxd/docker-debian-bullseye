@@ -1,6 +1,7 @@
 version: '3.3'
 services:
     debian-vm:
+        platform: linux/amd64
         build:
             context: .
             dockerfile: Dockerfile
